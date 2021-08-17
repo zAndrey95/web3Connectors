@@ -1,18 +1,16 @@
+// @ts-nocheck
 import React, { useEffect } from 'react';
 import Web3 from 'web3';
-import cn from 'classnames';
 import WalletConnect from "@walletconnect/client";
 import QRCodeModal from "@walletconnect/qrcode-modal";
 import { isMobile } from 'react-device-detect'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
-import ReactGA from 'react-ga'
 
-import { injected } from './connectors.js'
+import { injected } from './connectors'
 import { normalizeEth, normalizeAccount } from './utils';
 
-import styles from './ConnectMetaMask.module.css';
-import { getAlternativeProvider } from './../../helpers/web3Contract';
+import { getAlternativeProvider } from './helpers';
 
 const SUPPORTED_WALLETS = {
   METAMASK: {
@@ -22,24 +20,66 @@ const SUPPORTED_WALLETS = {
     description: 'Easy-to-use browser extension.',
     href: null,
     color: '#E8831D',
-  }
+  },
+  INJECTED: {
+    connector: injected,
+    name: 'Injected',
+    // iconURL: INJECTED_ICON_URL,
+    description: 'Injected web3 provider.',
+    href: null,
+    color: '#010101',
+    primary: true,
+  },
+  WALLET_CONNECT: {
+    connector: injected,
+    name: 'WalletConnect',
+    // iconURL: WALLETCONNECT_ICON_URL,
+    description: 'Connect to Trust Wallet, Rainbow Wallet and more...',
+    href: null,
+    color: '#4196FC',
+    mobile: true,
+  },
+  WALLET_LINK: {
+    connector: injected,
+    name: 'Coinbase Wallet',
+    // iconURL: COINBASE_ICON_URL,
+    description: 'Use Coinbase Wallet app on mobile device',
+    href: null,
+    color: '#315CF5',
+  },
+  COINBASE_LINK: {
+    name: 'Open in Coinbase Wallet',
+    // iconURL: COINBASE_ICON_URL,
+    description: 'Open in Coinbase Wallet app.',
+    href: 'https://go.cb-w.com/mtUDhEZPy1',
+    color: '#315CF5',
+    mobile: true,
+    mobileOnly: true,
+  },
+  FORTMATIC: {
+    connector: injected,
+    name: 'Fortmatic',
+    // iconURL: FORTMATIC_ICON_URL,
+    description: 'Login using Fortmatic hosted wallet',
+    href: null,
+    color: '#6748FF',
+    mobile: true,
+  },
+  Portis: {
+    connector: injected,
+    name: 'Portis',
+    // iconURL: PORTIS_ICON_URL,
+    description: 'Login using Portis hosted wallet',
+    href: null,
+    color: '#4A6C9B',
+    mobile: true,
+  },
 }
 
-const ConnectMetaMask = ({ account, setAccount }) => {
+const ConnectMetaMask: (account?: any, setAccount?: any) => any = ({ account, setAccount }) => {
   const { activate, account: accWeb3, chainId } = useWeb3React()
 
-  useEffect(() => {
-    window.addEventListener('load', async () => {
-      await onConnect();
-    });
-
-    if(window.ethereum) {
-      window.ethereum.on('chainChanged', chainChanged);
-      window.ethereum.on('accountsChanged', accountsChanged);
-    }
-  });
-
-  const accountsChanged = (acc) => {
+  const accountsChanged = (acc: any) => {
     console.log('accountsChanged', window.web3.currentProvider)
     // window.web3 = new Web3(window.web3.currentProvider);
     setAccount && setAccount({
@@ -49,7 +89,7 @@ const ConnectMetaMask = ({ account, setAccount }) => {
 
   }
 
-  const chainChanged = (chainId) => {
+  const chainChanged = (chainId: any) => {
     console.log('chainChanged', window.web3.currentProvider)
     // window.web3 = new Web3(window.web3.currentProvider);
     setAccount({
@@ -84,7 +124,7 @@ const ConnectMetaMask = ({ account, setAccount }) => {
     accWeb3 && getUserInfo()
   }, [accWeb3])
 
-  const onConnect = async (connector) => {
+  const onConnect = async (connector: any) => {
     if(isMobile) {
       const connector = new WalletConnect({
         bridge: "https://uniswap.bridge.walletconnect.org",
@@ -127,12 +167,6 @@ const ConnectMetaMask = ({ account, setAccount }) => {
           return (name = SUPPORTED_WALLETS[key].name)
         }
         return true
-      })
-      // log selected wallet
-      ReactGA.event({
-        category: 'Wallet',
-        action: 'Change Wallet',
-        label: name,
       })
   
       // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
@@ -190,22 +224,33 @@ const ConnectMetaMask = ({ account, setAccount }) => {
     // return false;
   }
 
+  useEffect(() => {
+    window.addEventListener('load', async () => {
+      await onConnect();
+    });
+
+    if(window.ethereum) {
+      window.ethereum.on('chainChanged', chainChanged);
+      window.ethereum.on('accountsChanged', accountsChanged);
+    }
+  });
+
   return (
     <>
       {!account?.account && (
-        <button className={styles.btn} onClick={() => onConnect(SUPPORTED_WALLETS.METAMASK.connector)}>Connect to a Wallet</button>
+        <button onClick={() => onConnect(SUPPORTED_WALLETS.METAMASK.connector)}>Connect to a Wallet</button>
       )}
       {account?.account && (
         <>
-        <div className={styles.account}>
+        <div >
           <span>
             {normalizeEth(account.balance)} {[56, 97].includes(account.chainId) ? 'BNB' : 'ETH'}
           </span>
-          <span className={styles.accountWallet}>
+          <span >
             {normalizeAccount(account.account)}
           </span>
         </div>
-        <span className={cn(styles.accountWalletMobile)}>
+        <span >
           {normalizeAccount(account.account)}
         </span>
         </>

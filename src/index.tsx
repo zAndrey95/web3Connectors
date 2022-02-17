@@ -1,19 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Web3Provider } from '@ethersproject/providers';
-import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Web3Provider } from "@ethersproject/providers";
+import { createWeb3ReactRoot, Web3ReactProvider } from "@web3-react/core";
 
-import App from './App';
-import Web3ReactManager from './web3Connector/Web3ReactManager.jsx'
+import App from "./App";
+import Web3ReactManager from "./ConnectWallet/Web3ReactManager.jsx";
 
 declare global {
   interface Window {
-    ethereum: any
-    web3: any
+    ethereum: any;
+    web3: any;
   }
 }
 
-const NetworkContextName = 'NETWORK';
+const NetworkContextName = "NETWORK";
 
 function getLibrary(provider: any) {
   const library = new Web3Provider(provider);
@@ -37,5 +37,5 @@ ReactDOM.render(
       </Web3ProviderNetwork>
     </Web3ReactProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );

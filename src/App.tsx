@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
-import ButtonConnect from './web3Connector/index'
+import Connector from "./ConnectWallet/Connector";
 
 function App() {
   return (
     <div className="App">
-        <ButtonConnect />
+      <Connector />
     </div>
   );
 }

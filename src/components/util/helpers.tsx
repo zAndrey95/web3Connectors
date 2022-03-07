@@ -7,7 +7,7 @@ export const networks = {
   bsc_test: "https://data-seed-prebsc-2-s3.binance.org:8545",
 };
 
-export const getAlternativeProvider = (chainId: number | undefined) => {
+ export const getAlternativeProvider = (chainId: number) => {
   let provider;
 
   switch (chainId) {

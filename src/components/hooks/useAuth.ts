@@ -54,6 +54,7 @@ const useAuth = () => {
     },
     [activate]
   );
+
   return { login };
 };
 

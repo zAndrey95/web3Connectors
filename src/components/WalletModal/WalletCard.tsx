@@ -1,7 +1,8 @@
-import React from "react";
+import React from "react"; // @ts-nocheck
 import Button from "../Button/Button";
 import { connectorLocalStorageKey } from "./config";
 import { Login, Config } from "./types";
+// import { isMobile } from "react-device-detect";
 
 interface Props {
   walletConfig: Config;
@@ -17,7 +18,7 @@ const WalletCard: React.FC<Props> = ({
   mb,
 }) => {
   const { title, icon: Icon } = walletConfig;
-  // console.log("connectorLocalStorageKey", connectorLocalStorageKey);
+
   return (
     <>
       <Button

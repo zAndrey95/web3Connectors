@@ -13,14 +13,13 @@ const modalStyles = {
 
 const App = () => {
   setStyles(modalStyles);
-  const { signMessage, isVerify } = useSignMessage();
+  // const { signMessage, isVerify } = useSignMessage();
 
-  useEffect(() => {
-    if (!isVerify) {
-      signMessage("TEST");
-    }
-    console.log("isVerify", isVerify);
-  }, [isVerify]);
+  // useEffect(() => {
+  //   if (!isVerify) {
+  //     signMessage("TEST");
+  //   }
+  // }, [isVerify]);
 
   return (
     <>

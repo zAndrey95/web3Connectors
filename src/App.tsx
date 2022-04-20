@@ -1,14 +1,31 @@
-import { ConnectButton } from "../src/walletHooks/component/ButtonConnect/connectButton";
-import styled from "styled-components";
-import { ModalConnectors } from "./walletHooks/component/Modal/ModalConnectors";
+import { useEffect } from "react";
+import { ConnectButton, setStyles, useSignMessage } from "tech-web3-connector";
+
+const modalStyles = {
+  modalBackdrop: {},
+  modalContainer: {},
+  modalBtnClose: {},
+  modalConnectorsContainer: { "background-color": "color" }, // example code
+  modalConnectorsItem: {},
+  modalBtnProvider: {},
+  modalNameWallet: { color: "color" }, // example code
+};
 
 const App = () => {
+  setStyles(modalStyles);
+  const { signMessage, isVerify } = useSignMessage();
+
+  useEffect(() => {
+    if (!isVerify) {
+      signMessage("TEST");
+    }
+    console.log("isVerify", isVerify);
+  }, [isVerify]);
+
   return (
     <>
       <ConnectButton />
-      <ModalConnectors />
     </>
   );
 };
-
 export default App;

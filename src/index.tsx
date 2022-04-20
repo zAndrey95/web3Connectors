@@ -4,12 +4,6 @@ import { Web3Provider } from "@ethersproject/providers";
 import { Web3ReactProvider } from "@web3-react/core";
 import App from "./App";
 
-declare global {
-  interface Window {
-    ethereum: any;
-    web3: any;
-  }
-}
 
 function getLibrary(provider: any) {
   const library = new Web3Provider(provider);
